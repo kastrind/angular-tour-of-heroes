@@ -6,18 +6,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require("@angular/core");
-var AppComponent = (function () {
-    function AppComponent() {
-        this.name = 'Angular';
-        this.title = 'Tour of Heroes';
+var MessageService = (function () {
+    function MessageService() {
+        this.messages = [];
     }
-    return AppComponent;
+    MessageService.prototype.add = function (message) {
+        this.messages.push(message);
+    };
+    MessageService.prototype.clear = function () {
+        this.messages.length = 0;
+    };
+    return MessageService;
 }());
-AppComponent = __decorate([
-    core_1.Component({
-        selector: 'my-app',
-        template: "\n  <h1>{{title}}</h1>\n  <app-heroes></app-heroes>\n  <app-messages></app-messages>\n  "
-    })
-], AppComponent);
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+MessageService = __decorate([
+    core_1.Injectable()
+], MessageService);
+exports.MessageService = MessageService;
+//# sourceMappingURL=message.service.js.map
