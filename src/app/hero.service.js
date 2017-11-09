@@ -21,6 +21,11 @@ var HeroService = (function () {
         this.messageService.add('HeroService: fetched heroes');
         return of_1.of(mock_heroes_1.HEROES);
     };
+    HeroService.prototype.getHero = function (id) {
+        // Todo: send the message _after_ fetching the hero
+        this.messageService.add("HeroService: fetched hero id=" + id);
+        return of_1.of(mock_heroes_1.HEROES.find(function (hero) { return hero.id === id; }));
+    };
     return HeroService;
 }());
 HeroService = __decorate([
