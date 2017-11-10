@@ -16,6 +16,7 @@ import { HeroService }  from './hero.service';
     </div>
   </div>
   <button (click)="goBack()">go back</button>
+  <button (click)="save()">save</button>
   `,
   styles: [`
     /* HeroDetailComponent's private CSS styles */
@@ -50,7 +51,7 @@ import { HeroService }  from './hero.service';
     }
     `]
 })
-export class HeroDetailComponent implements OnInit{
+export class HeroDetailComponent {
   @Input() hero: Hero;
 
   constructor(
@@ -72,5 +73,10 @@ export class HeroDetailComponent implements OnInit{
   goBack(): void {
     this.location.back();
   }
+
+  save(): void {
+   this.heroService.updateHero(this.hero)
+     .subscribe(() => this.goBack());
+   }
 
 }

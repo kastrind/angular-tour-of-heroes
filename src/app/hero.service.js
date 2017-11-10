@@ -9,28 +9,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var mock_heroes_1 = require("./mock-heroes");
-var of_1 = require("rxjs/observable/of");
 var message_service_1 = require("./message.service");
+var http_1 = require("@angular/common/http");
 var HeroService = (function () {
-    function HeroService(messageService) {
+    function HeroService(http, messageService) {
+        this.http = http;
         this.messageService = messageService;
+        this.heroesUrl = 'api/heroes'; // URL to web api
     }
     HeroService.prototype.getHeroes = function () {
         // Todo: send the message _after_ fetching the heroes
         this.messageService.add('HeroService: fetched heroes');
-        return of_1.of(mock_heroes_1.HEROES);
+        return this.http.get(this.heroesUrl);
     };
+    /** GET hero by id. Will 404 if id not found */
     HeroService.prototype.getHero = function (id) {
-        // Todo: send the message _after_ fetching the hero
-        this.messageService.add("HeroService: fetched hero id=" + id);
-        return of_1.of(mock_heroes_1.HEROES.find(function (hero) { return hero.id === id; }));
+        var _this = this;
+        var url = this.heroesUrl + "/" + id;
+        return this.http.get(url).pipe(tap(function (_) { return _this.log("fetched hero id=" + id); }), catchError(this.handleError("getHero id=" + id)));
+    };
+    /** Log a HeroService message with the MessageService */
+    HeroService.prototype.log = function (message) {
+        this.messageService.add('HeroService: ' + message);
     };
     return HeroService;
 }());
 HeroService = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [message_service_1.MessageService])
+    __metadata("design:paramtypes", [http_1.HttpClient,
+        message_service_1.MessageService])
 ], HeroService);
 exports.HeroService = HeroService;
 //# sourceMappingURL=hero.service.js.map

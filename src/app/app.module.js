@@ -16,6 +16,9 @@ var message_service_1 = require("./message.service");
 var heroes_component_1 = require("./heroes/heroes.component");
 var app_routing_module_1 = require("./app-routing.module");
 var dashboard_component_1 = require("./dashboard/dashboard.component");
+var http_1 = require("@angular/common/http");
+var angular_in_memory_web_api_1 = require("angular-in-memory-web-api");
+var in_memory_data_service_1 = require("./in-memory-data.service");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -23,10 +26,19 @@ var AppModule = (function () {
 }());
 AppModule = __decorate([
     core_1.NgModule({
-        imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, app_routing_module_1.AppRoutingModule],
+        imports: [
+            platform_browser_1.BrowserModule,
+            forms_1.FormsModule,
+            app_routing_module_1.AppRoutingModule,
+            http_1.HttpClientModule,
+            // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
+            // and returns simulated server responses.
+            // Remove it when a real server is ready to receive requests.
+            angular_in_memory_web_api_1.InMemoryWebApiModule.forRoot(in_memory_data_service_1.InMemoryDataService, { dataEncapsulation: false })
+        ],
         declarations: [app_component_1.AppComponent, hero_detail_component_1.HeroDetailComponent, messages_component_1.MessagesComponent, heroes_component_1.HeroesComponent, dashboard_component_1.DashboardComponent],
         bootstrap: [app_component_1.AppComponent],
-        providers: [hero_service_1.HeroService, message_service_1.MessageService]
+        providers: [hero_service_1.HeroService, message_service_1.MessageService, in_memory_data_service_1.InMemoryDataService]
     })
 ], AppModule);
 exports.AppModule = AppModule;
